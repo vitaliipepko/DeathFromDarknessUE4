@@ -42,7 +42,7 @@ protected:
 	USkeletalMeshComponent* BodyMesh;
 
 	UPROPERTY(EditAnywhere, Category = "Components")
-	USkeletalMeshComponent* TorsoMesh;
+	USkeletalMeshComponent* PantsMesh;
 
 	UPROPERTY(EditAnywhere, Category = "Components")
 	USkeletalMeshComponent* HandsMesh;
@@ -51,13 +51,10 @@ protected:
 	USkeletalMeshComponent* LegsMesh;
 
 	UPROPERTY(EditAnywhere, Category = "Components")
-	USkeletalMeshComponent* PantsMesh;
-
-	UPROPERTY(EditAnywhere, Category = "Components")
 	USkeletalMeshComponent* ShoesMesh;
 /*-----------------------------------------*/
 
-/*MOVABLE FUNCTIONS*/
+/*MOVEMENT FUNCTIONS*/
 /*-----------------------------------------*/
 	void MoveForward(float Amount);
 	void MoveRight(float Amount);
@@ -69,7 +66,7 @@ protected:
 
 private:
 	/** Socket Which Attaching Camera To Mesh */
-	FName CameraSocket = "CameraSoket";
+	FName CameraSocket = "CameraSocket";
 
 public:
 	/** Return Camera Component */

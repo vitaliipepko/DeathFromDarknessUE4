@@ -20,17 +20,14 @@ ADFDBaseCharacter::ADFDBaseCharacter()
 	BodyMesh = CreateDefaultSubobject<USkeletalMeshComponent>("BodyMeshComponent");
 	BodyMesh->SetupAttachment(GetMesh());
 
-	TorsoMesh = CreateDefaultSubobject<USkeletalMeshComponent>("TorsoMeshComponent");
-	TorsoMesh->SetupAttachment(GetMesh());
+	PantsMesh = CreateDefaultSubobject<USkeletalMeshComponent>("PantsMeshComponent");
+	PantsMesh->SetupAttachment(GetMesh());
 
 	HandsMesh = CreateDefaultSubobject<USkeletalMeshComponent>("HandsMeshComponent");
 	HandsMesh->SetupAttachment(GetMesh());
 
 	LegsMesh = CreateDefaultSubobject<USkeletalMeshComponent>("LegsMeshComponent");
 	LegsMesh->SetupAttachment(GetMesh());
-
-	PantsMesh = CreateDefaultSubobject<USkeletalMeshComponent>("PantsMeshComponent");
-	PantsMesh->SetupAttachment(GetMesh());
 
 	ShoesMesh = CreateDefaultSubobject<USkeletalMeshComponent>("ShoesMeshComponent");
 	ShoesMesh->SetupAttachment(GetMesh());
