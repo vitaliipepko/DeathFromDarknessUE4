@@ -60,8 +60,20 @@ protected:
 	void MoveRight(float Amount);
 	void TurnAround(float Amount);
 	void LookUp(float Amount);
-	void StartCrouch();
-	void StopCrouch();
+	void ToggleCrouch();
+	void StartSprinting();
+	void StopSprinting();
+	void SetSprinting(const bool bNewSprinting);
+	bool CanSprint() const;
+
+	UPROPERTY(BlueprintReadOnly, Category="Movement")
+	bool bIsSprinting;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Movement")
+	float SprintSpeed;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Movement")
+	float WalkSpeed;
 /*-----------------------------------------*/
 
 private:
@@ -71,5 +83,8 @@ private:
 public:
 	/** Return Camera Component */
 	FORCEINLINE UCameraComponent* GetCamera() const { return CameraComponent; }
+
+	UFUNCTION(BlueprintCallable, Category="Movement")
+	bool IsRunning() const;
 
 };

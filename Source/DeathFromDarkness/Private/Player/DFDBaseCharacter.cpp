@@ -32,7 +32,8 @@ ADFDBaseCharacter::ADFDBaseCharacter()
 	ShoesMesh = CreateDefaultSubobject<USkeletalMeshComponent>("ShoesMeshComponent");
 	ShoesMesh->SetupAttachment(GetMesh());
 
-	GetCharacterMovement()->NavAgentProps.bCanCrouch = true;
+	SprintSpeed = 450.f;
+	WalkSpeed = 120.f;
 }
 
 void ADFDBaseCharacter::BeginPlay()
@@ -62,11 +63,13 @@ void ADFDBaseCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCo
 	PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &ACharacter::Jump);
 	PlayerInputComponent->BindAction("Jump", IE_Released, this, &ACharacter::StopJumping);
 
-	PlayerInputComponent->BindAction("Crouch", IE_Pressed, this, &ADFDBaseCharacter::StartCrouch);
-	PlayerInputComponent->BindAction("Crouch", IE_Released, this, &ADFDBaseCharacter::StopCrouch);
+	PlayerInputComponent->BindAction("Crouch", IE_Pressed, this, &ADFDBaseCharacter::ToggleCrouch);
+
+	PlayerInputComponent->BindAction("Run", IE_Pressed, this, &ADFDBaseCharacter::StartSprinting);
+	PlayerInputComponent->BindAction("Run", IE_Released, this, &ADFDBaseCharacter::StopSprinting);
 }
 
-/*MOVABLE FUNCTIONS*/
+/*MOVEMENT FUNCTIONS*/
 /////////////////////////////////////////////
 /*-----------------------------------------*/
 void ADFDBaseCharacter::MoveForward(float Amount)
@@ -101,16 +104,58 @@ void ADFDBaseCharacter::LookUp(float Amount)
 /*-----------------------------------------*/
 
 /*-----------------------------------------*/
-void ADFDBaseCharacter::StartCrouch()
+void ADFDBaseCharacter::ToggleCrouch()
 {
-	Crouch();
+	if(GetCharacterMovement()->IsCrouching())
+	{
+		UnCrouch();
+	}
+	else
+	{
+		GetCharacterMovement()->NavAgentProps.bCanCrouch = true;
+		Crouch();
+	}
 }
 /*-----------------------------------------*/
 
 /*-----------------------------------------*/
-void ADFDBaseCharacter::StopCrouch()
+void ADFDBaseCharacter::StartSprinting()
 {
-	UnCrouch();
+	SetSprinting(true);
+	UE_LOG(LogTemp, Warning, TEXT("%f"), SprintSpeed);
+}
+/*-----------------------------------------*/
+
+/*-----------------------------------------*/
+void ADFDBaseCharacter::StopSprinting()
+{
+	SetSprinting(false);
+	UE_LOG(LogTemp, Warning, TEXT("%f"), WalkSpeed);
+}
+/*-----------------------------------------*/
+
+/*-----------------------------------------*/
+void ADFDBaseCharacter::SetSprinting(bool bNewSprinting)
+{
+	if (!CanSprint()) return;
+	
+	bIsSprinting = bNewSprinting;
+	
+	GetCharacterMovement()->MaxWalkSpeed = bIsSprinting ? SprintSpeed : WalkSpeed;
+}
+/*-----------------------------------------*/
+
+/*-----------------------------------------*/
+bool ADFDBaseCharacter::CanSprint() const
+{
+	return !bIsCrouched;
+}
+/*-----------------------------------------*/
+
+/*-----------------------------------------*/
+bool ADFDBaseCharacter::IsRunning() const
+{
+	return bIsSprinting;
 }
 /*-----------------------------------------*/
 /////////////////////////////////////////////
