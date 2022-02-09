@@ -10,7 +10,32 @@
 /*-----------------------------------------*/
 class UCameraComponent;
 class USkeletalMeshComponent;
+class UDFDInteractionComponent;
 /*-----------------------------------------*/
+
+
+USTRUCT()
+struct FInteractionData
+{
+	GENERATED_USTRUCT_BODY()
+
+	FInteractionData()
+	{
+		ViewedInteractionComponent = nullptr;
+		LastInteractionCheckTime = 0.f;
+		bInteractHeld = false;
+	}
+
+	UPROPERTY()
+	UDFDInteractionComponent* ViewedInteractionComponent;
+
+	UPROPERTY()
+	float LastInteractionCheckTime;
+
+	UPROPERTY()
+	bool bInteractHeld;
+	
+};
 
 
 UCLASS()
@@ -52,7 +77,27 @@ protected:
 
 	UPROPERTY(EditAnywhere, Category = "Components")
 	USkeletalMeshComponent* ShoesMesh;
+
+	UPROPERTY(EditDefaultsOnly, Category="Interaction")
+	float InteractionCheckFrequency;
 	
+	UPROPERTY(EditDefaultsOnly, Category="Interaction")
+	float InteractionCheckDistance;
+
+	
+	UPROPERTY()
+	FInteractionData InteractionData;
+
+	FTimerHandle InteractTimerHandle;
+
+
+	//INTERACTION FUNCTIONS
+	void PerformInteractionCheck();
+	void CouldFindInteractable();
+	void FoundNewInteractable(UDFDInteractionComponent* Interactable);
+	void BeginInteract();
+	void EndInteract();
+	void Interact();
 	/*-----------------------------------------*/
 
 private:
@@ -74,6 +119,13 @@ private:
 	FName CameraSocket = "CameraSocket";
 
 public:
+	//INTERACTION FUNCTIONS
+	bool IsInteracting() const;
+	float GetRemainingInteractingTime() const;
+
+	
+	FORCEINLINE UDFDInteractionComponent* GetInteractable() const { return InteractionData.ViewedInteractionComponent; }
+	
 	/** Return Camera Component */
 	UFUNCTION(BlueprintPure, Category="Camera")
 	FORCEINLINE UCameraComponent* GetCamera() const { return CameraComponent; }
