@@ -2,11 +2,11 @@
 
 
 #include "Framework/DFDGameModeBase.h"
-#include "Player/DFDBaseCharacter.h"
+#include "Player/DFDPlayerCharacter.h"
 #include "Player/DFDPlayerController.h"
 
 ADFDGameModeBase::ADFDGameModeBase()
 {
-	DefaultPawnClass = ADFDBaseCharacter::StaticClass();
+	DefaultPawnClass = ADFDPlayerCharacter::StaticClass();
 	PlayerControllerClass = ADFDPlayerController::StaticClass();
 }
