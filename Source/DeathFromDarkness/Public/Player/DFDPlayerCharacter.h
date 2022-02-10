@@ -11,6 +11,7 @@
 class UCameraComponent;
 class USkeletalMeshComponent;
 class UDFDInteractionComponent;
+class UCameraShakeBase;
 /*-----------------------------------------*/
 
 
@@ -34,7 +35,6 @@ struct FInteractionData
 
 	UPROPERTY()
 	bool bInteractHeld;
-	
 };
 
 
@@ -57,9 +57,11 @@ public:
 protected:
 	/*PROPERTIES*/
 	/*-----------------------------------------*/
+	/** Camera Property */
 	UPROPERTY(EditAnywhere, Category = "Components")
 	UCameraComponent* CameraComponent;
 
+	/** Mesh Properties */
 	UPROPERTY(EditAnywhere, Category = "Components")
 	USkeletalMeshComponent* HairMesh;
 
@@ -78,6 +80,11 @@ protected:
 	UPROPERTY(EditAnywhere, Category = "Components")
 	USkeletalMeshComponent* ShoesMesh;
 
+	/** CameraShake Property */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="CameraShake")
+	TSubclassOf<UCameraShakeBase> CameraShakeRun;
+
+	/** Interaction Properties */
 	UPROPERTY(EditDefaultsOnly, Category="Interaction")
 	float InteractionCheckFrequency;
 	
@@ -101,7 +108,7 @@ protected:
 	/*-----------------------------------------*/
 
 private:
-	/*MOVEMENT FUNCTIONS*/
+	/** Movement Functions and Variables */
 	/*-----------------------------------------*/
 	void MoveForward(float Amount);
 	void MoveRight(float Amount);
@@ -110,20 +117,27 @@ private:
 	void ToggleCrouch();
 	void StartRunning();
 	void StopRunning();
-	
+
+	/** Play any CameraShakeBase */
+	void StartCameraShake(TSubclassOf<UCameraShakeBase> CameraShake) const;
+
+	/** Movement Variables */
 	bool WantsToRun = false;
-    bool IsMovingForward = false;
+	bool IsMovingForward = false;
 	bool bIsCrouching;
 
+	float Stamina = 100.f;
+	/*-----------------------------------------*/
+	
 	/** Socket Which Attaching Camera To Mesh */
 	FName CameraSocket = "CameraSocket";
 
 public:
-	//INTERACTION FUNCTIONS
+	/** Interaction Functions */
 	bool IsInteracting() const;
 	float GetRemainingInteractingTime() const;
 
-	
+	/** Return Interactable Component */
 	FORCEINLINE UDFDInteractionComponent* GetInteractable() const { return InteractionData.ViewedInteractionComponent; }
 	
 	/** Return Camera Component */

@@ -80,6 +80,12 @@ void ADFDPlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInput
 void ADFDPlayerCharacter::MoveForward(float Amount)
 {
 	if (Amount ==  0.f) return;
+
+	if(IsRunning())
+	{
+		StartCameraShake(CameraShakeRun);
+	}
+	
 	IsMovingForward = Amount > 0.f;
 	AddMovementInput(GetActorForwardVector(), Amount);
 }
@@ -146,10 +152,17 @@ bool ADFDPlayerCharacter::IsRunning() const
 	return WantsToRun && IsMovingForward && !bIsCrouching && !GetVelocity().IsZero();
 }
 /*-----------------------------------------*/
+
+/*-----------------------------------------*/
+void ADFDPlayerCharacter::StartCameraShake(TSubclassOf<UCameraShakeBase> CameraShake) const
+{
+	GetController<APlayerController>()->PlayerCameraManager->StartCameraShake(CameraShake);
+}
+/*-----------------------------------------*/
 /////////////////////////////////////////////
 
 
-/*ITERACTION FUNCTIONS*/
+/*INTERACTION FUNCTIONS*/
 /////////////////////////////////////////////
 /*-----------------------------------------*/
 void ADFDPlayerCharacter::PerformInteractionCheck()
