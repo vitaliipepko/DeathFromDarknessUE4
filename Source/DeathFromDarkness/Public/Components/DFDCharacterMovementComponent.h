@@ -13,6 +13,7 @@ class DEATHFROMDARKNESS_API UDFDCharacterMovementComponent : public UCharacterMo
 	GENERATED_BODY()
 
 public:
+	/** Modifier Character speed in Blueprint */
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Movement", meta = (ClampMin = "1.5", ClampMax = "10.0"))
 	float RunModifier = 4.0f;
 

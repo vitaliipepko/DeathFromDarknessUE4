@@ -6,9 +6,7 @@
 #include "GameFramework/GameModeBase.h"
 #include "DFDGameModeBase.generated.h"
 
-/**
- * 
- */
+
 UCLASS()
 class DEATHFROMDARKNESS_API ADFDGameModeBase : public AGameModeBase
 {

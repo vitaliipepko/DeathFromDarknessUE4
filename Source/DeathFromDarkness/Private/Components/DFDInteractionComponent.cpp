@@ -30,9 +30,9 @@ void UDFDInteractionComponent::PrimitiveRenderFunc(bool bRenderCustom)
 	TArray<UPrimitiveComponent*> Primitives;
 	GetOwner()->GetComponents<UPrimitiveComponent>(Primitives);
 
-	for(auto &Prim : Primitives)
+	for(const auto &Primitive : Primitives)
 	{
-		Prim->SetRenderCustomDepth(bRenderCustom);
+		Primitive->SetRenderCustomDepth(bRenderCustom);
 	}
 }
 

@@ -6,7 +6,7 @@
 #include "Blueprint/UserWidget.h"
 #include "DFDInteractionWidget.generated.h"
 
-/*FORWARD DECLARATION*/
+/*Forward Declaration*/
 /*-----------------------------------------*/
 class UDFDInteractionComponent;
 /*-----------------------------------------*/

@@ -6,7 +6,7 @@
 #include "Player/DFDBaseCharacter.h"
 #include "DFDPlayerCharacter.generated.h"
 
-/*FORWARD DECLARATION*/
+/*Forward Declaration*/
 /*-----------------------------------------*/
 class UCameraComponent;
 class USkeletalMeshComponent;
@@ -14,7 +14,7 @@ class UDFDInteractionComponent;
 class UCameraShakeBase;
 /*-----------------------------------------*/
 
-
+/** Interaction Data Structure */
 USTRUCT()
 struct FInteractionData
 {
@@ -36,6 +36,7 @@ struct FInteractionData
 	UPROPERTY()
 	bool bInteractHeld;
 };
+/*-----------------------------------------*/
 
 
 UCLASS()
@@ -54,6 +55,7 @@ public:
 
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
+/*------------------------------------------------------PROTECTED-----------------------------------------------------*/
 protected:
 	/*PROPERTIES*/
 	/*-----------------------------------------*/
@@ -90,15 +92,19 @@ protected:
 	
 	UPROPERTY(EditDefaultsOnly, Category="Interaction")
 	float InteractionCheckDistance;
+	/*-----------------------------------------*/
 
-	
+
+	/** Interaction Struct */
 	UPROPERTY()
 	FInteractionData InteractionData;
 
+	/** Timer for Interaction */
 	FTimerHandle InteractTimerHandle;
 
 
-	//INTERACTION FUNCTIONS
+	//Interaction Functions
+	/*-----------------------------------------*/
 	void PerformInteractionCheck();
 	void CouldFindInteractable();
 	void FoundNewInteractable(UDFDInteractionComponent* Interactable);
@@ -107,6 +113,7 @@ protected:
 	void Interact();
 	/*-----------------------------------------*/
 
+/*------------------------------------------------------PRIVATE-------------------------------------------------------*/
 private:
 	/** Movement Functions and Variables */
 	/*-----------------------------------------*/
@@ -117,38 +124,53 @@ private:
 	void ToggleCrouch();
 	void StartRunning();
 	void StopRunning();
+	/*-----------------------------------------*/
 
 	/** Play any CameraShakeBase */
+	/*-----------------------------------------*/
 	void StartCameraShake(TSubclassOf<UCameraShakeBase> CameraShake) const;
+	/*-----------------------------------------*/
 
 	/** Movement Variables */
+	/*-----------------------------------------*/
 	bool WantsToRun = false;
 	bool IsMovingForward = false;
-	bool bIsCrouching;
-
-	float Stamina = 100.f;
+	bool bIsCrouching = false;
 	/*-----------------------------------------*/
 	
 	/** Socket Which Attaching Camera To Mesh */
+	/*-----------------------------------------*/
 	FName CameraSocket = "CameraSocket";
+	/*-----------------------------------------*/
 
+/*-------------------------------------------------------PUBLIC-------------------------------------------------------*/
 public:
 	/** Interaction Functions */
+	/*-----------------------------------------*/
 	bool IsInteracting() const;
 	float GetRemainingInteractingTime() const;
+	/*-----------------------------------------*/
 
 	/** Return Interactable Component */
+	/*-----------------------------------------*/
 	FORCEINLINE UDFDInteractionComponent* GetInteractable() const { return InteractionData.ViewedInteractionComponent; }
+	/*-----------------------------------------*/
 	
 	/** Return Camera Component */
+	/*-----------------------------------------*/
 	UFUNCTION(BlueprintPure, Category="Camera")
 	FORCEINLINE UCameraComponent* GetCamera() const { return CameraComponent; }
+	/*-----------------------------------------*/
 
 	/** Return Running Player Or Not */
+	/*-----------------------------------------*/
 	UFUNCTION(BlueprintPure, Category="Movement")
 	FORCEINLINE bool IsRunning() const;
+	/*-----------------------------------------*/
 
 	/** Return Crouching Player Or Not */
+	/*-----------------------------------------*/
 	UFUNCTION(BlueprintPure, Category="Movement")
 	FORCEINLINE bool IsCrouching() const { return bIsCrouching; }
+	/*-----------------------------------------*/
 };

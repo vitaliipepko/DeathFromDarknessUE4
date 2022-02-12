@@ -6,20 +6,27 @@
 #include "Components/WidgetComponent.h"
 #include "DFDInteractionComponent.generated.h"
 
+/** Forward Declaration */
+/*-----------------------------------------*/
 class ADFDPlayerCharacter;
+/*-----------------------------------------*/
 
+/** Interaction Delegates */
+/*-----------------------------------------*/
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnBeginInteract, ADFDPlayerCharacter*, Character);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnEndInteract, ADFDPlayerCharacter*, Character);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnBeginFocus, ADFDPlayerCharacter*, Character);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnEndFocus, ADFDPlayerCharacter*, Character);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnInteract, ADFDPlayerCharacter*, Character);
+/*-----------------------------------------*/
 
 
 UCLASS(ClassGroup=(Custom), meta=(BlueprintSpawnableComponent))
 class DEATHFROMDARKNESS_API UDFDInteractionComponent : public UWidgetComponent
 {
 	GENERATED_BODY()
-	
+
+/*-----------------------------------------------------PROTECTED------------------------------------------------------*/
 protected:
 	virtual void Deactivate() override;
 
@@ -28,6 +35,7 @@ protected:
 	UPROPERTY()
 	TArray<ADFDPlayerCharacter*> InterActors;
 
+/*-------------------------------------------------------PUBLIC-------------------------------------------------------*/
 public:
 	UDFDInteractionComponent();
 
@@ -82,6 +90,7 @@ public:
 	UFUNCTION(BlueprintCallable, Category="Interaction")
 	void SetInteractableActionText(const FText& NewActionText);
 
+/*-------------------------------------------------------PRIVATE------------------------------------------------------*/
 private:
 	void PrimitiveRenderFunc(bool bRenderCustom);
 };
