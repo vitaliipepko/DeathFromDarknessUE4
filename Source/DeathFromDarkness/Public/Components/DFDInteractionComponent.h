@@ -92,5 +92,5 @@ public:
 
 /*-------------------------------------------------------PRIVATE------------------------------------------------------*/
 private:
-	void PrimitiveRenderFunc(bool bRenderCustom);
+	void ItemRender(bool bRenderCustom);
 };

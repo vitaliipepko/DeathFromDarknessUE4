@@ -86,6 +86,9 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="CameraShake")
 	TSubclassOf<UCameraShakeBase> CameraShakeRun;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="CameraShake")
+	TSubclassOf<UCameraShakeBase> CameraShakeOnLanded;
+
 	/** Interaction Properties */
 	UPROPERTY(EditDefaultsOnly, Category="Interaction")
 	float InteractionCheckFrequency;
@@ -124,18 +127,26 @@ private:
 	void ToggleCrouch();
 	void StartRunning();
 	void StopRunning();
-	/*-----------------------------------------*/
 
-	/** Play any CameraShakeBase */
+	/** When Player Touch Land */
+	UFUNCTION()
+	void OnGroundLanded(const FHitResult& HitResult);
+
+	/** Play CameraShakeBase */
 	/*-----------------------------------------*/
-	void StartCameraShake(TSubclassOf<UCameraShakeBase> CameraShake) const;
+	void PlayCameraShake(TSubclassOf<UCameraShakeBase> CameraShake) const;
 	/*-----------------------------------------*/
 
 	/** Movement Variables */
 	/*-----------------------------------------*/
-	bool WantsToRun = false;
-	bool IsMovingForward = false;
-	bool bIsCrouching = false;
+	bool WantsToRun;
+	bool IsMovingForward;
+	bool bIsCrouching;
+	/*-----------------------------------------*/
+
+	/** Mouse sensitivity */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Mouse Sensitivity", meta = (AllowPrivateAccess = "true"))
+	float MouseSensitivity;
 	/*-----------------------------------------*/
 	
 	/** Socket Which Attaching Camera To Mesh */

@@ -25,7 +25,7 @@ UDFDInteractionComponent::UDFDInteractionComponent()
 }
 
 
-void UDFDInteractionComponent::PrimitiveRenderFunc(bool bRenderCustom)
+void UDFDInteractionComponent::ItemRender(bool bRenderCustom)
 {
 	TArray<UPrimitiveComponent*> Primitives;
 	GetOwner()->GetComponents<UPrimitiveComponent>(Primitives);
@@ -92,7 +92,7 @@ void UDFDInteractionComponent::BeginFocus(ADFDPlayerCharacter* Character)
 	
 	SetHiddenInGame(false);
 
-	PrimitiveRenderFunc(true);
+	ItemRender(true);
 
 	RefreshWidget();
 }
@@ -104,7 +104,7 @@ void UDFDInteractionComponent::EndFocus(ADFDPlayerCharacter* Character)
 	
 	SetHiddenInGame(true);
 
-	PrimitiveRenderFunc(false);
+	ItemRender(false);
 }
 
 

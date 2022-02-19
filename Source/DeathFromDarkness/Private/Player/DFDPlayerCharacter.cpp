@@ -35,12 +35,19 @@ ADFDPlayerCharacter::ADFDPlayerCharacter(const FObjectInitializer& ObjInit):Supe
 
 	InteractionCheckFrequency = 0.f;
 	InteractionCheckDistance = 100.f;
+
+	WantsToRun = false;
+	IsMovingForward = false;
+	bIsCrouching = false;
+
+	MouseSensitivity = 0.5f;
 }
 
 void ADFDPlayerCharacter::BeginPlay()
 {
 	Super::BeginPlay();
-	
+
+	LandedDelegate.AddDynamic(this, &ADFDPlayerCharacter::OnGroundLanded);
 }
 
 void ADFDPlayerCharacter::Tick(float DeltaTime)
@@ -83,7 +90,7 @@ void ADFDPlayerCharacter::MoveForward(float Amount)
 
 	if(IsRunning())
 	{
-		StartCameraShake(CameraShakeRun);
+		PlayCameraShake(CameraShakeRun);
 	}
 	
 	IsMovingForward = Amount > 0.f;
@@ -103,7 +110,7 @@ void ADFDPlayerCharacter::MoveRight(float Amount)
 void ADFDPlayerCharacter::TurnAround(float Amount)
 {
 	if (Amount == 0.f) return;
-	AddControllerYawInput(Amount);
+	AddControllerYawInput(Amount * MouseSensitivity);
 }
 /*-----------------------------------------*/
 
@@ -111,7 +118,7 @@ void ADFDPlayerCharacter::TurnAround(float Amount)
 void ADFDPlayerCharacter::LookUp(float Amount)
 {
 	if (Amount ==  0.f) return;
-	AddControllerPitchInput(Amount);
+	AddControllerPitchInput(Amount * MouseSensitivity);
 }
 /*-----------------------------------------*/
 
@@ -144,6 +151,15 @@ void ADFDPlayerCharacter::StopRunning()
 {
 	WantsToRun = false;
 }
+
+/*-----------------------------------------*/
+void ADFDPlayerCharacter::OnGroundLanded(const FHitResult& HitResult)
+{
+	UE_LOG(LogTemp, Warning, TEXT("Player is down"));
+	PlayCameraShake(CameraShakeOnLanded);
+}
+/*-----------------------------------------*/
+
 /*-----------------------------------------*/
 
 /*-----------------------------------------*/
@@ -154,7 +170,7 @@ bool ADFDPlayerCharacter::IsRunning() const
 /*-----------------------------------------*/
 
 /*-----------------------------------------*/
-void ADFDPlayerCharacter::StartCameraShake(TSubclassOf<UCameraShakeBase> CameraShake) const
+void ADFDPlayerCharacter::PlayCameraShake(const TSubclassOf<UCameraShakeBase> CameraShake) const
 {
 	GetController<APlayerController>()->PlayerCameraManager->StartCameraShake(CameraShake);
 }
